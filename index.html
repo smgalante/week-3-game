@@ -1,16 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Hangman</title>
+	
 </head>
 <body>
-
-<script type="text/javascript">
+	<header>
+		<h1>Hangman</h1>
+	</header>
+	<div id="wrapper">
+		</div>
+		<div id="game">
+ 			<p>Guess a letter to start playing</p>
+ 			<p>Wins: <span id="wins">0</span></p>
+			<p>Losses: <span id="losses">0</span></p>
+			<p>Current Word: <span id="currentWord"></span></p>
+			<p>Number of Guesses Left: <span id="numGuesses">10</span></p>
+			<p>Letters Guessed: <span id="letterGuesses"></span></p>
+		</div>
+<!-- 	
+ -->	</div>
 	
 
-
+	<script type="text/javascript">
 	
-</script>
+		var countriesList = ["apple", "temple", "picture", "park","possum"];
+		var wins = 0;
+		var losses = 0;
+		var guessesLeft = 10;
+		var userGuesses = [];
+		var word = countriesList[Math.floor(Math.random() * countriesList.length)];
+		var wordLetters = word.split('');
+	    
+	    document.onkeyup = function(event) {
+        	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+			var wordOnPage = "";
+			if (wordLetters.indexOf(userGuess) > -1) {
 
+				for(var i = 0; i < wordLetters.length; i++) {
+					if (wordLetters[i] == userGuess) {
+						wordOnPage += (" " + userGuess);
+					} else {
+						wordOnPage += " _";
+					}
+				}
+				
+			} else if (userGuesses.indexOf(userGuess) > -1) {
+				
+			} else {
+				guessesLeft--;
+				userGuesses.push(userGuess);
+			}
+			// what to do if a loss occurs
+			if (userGuesses.length >= 10) {
+				losses++;
+				word = countriesList[Math.floor(Math.random() * countriesList.length)];
+				guessesLeft = 10;
+				userGuesses = [];
+			}
+			document.querySelector('#currentWord').innerHTML = wordOnPage;
+			document.querySelector('#numGuesses').innerHTML = guessesLeft;
+			document.querySelector('#letterGuesses').innerHTML = userGuesses;
+			document.querySelector('#losses').innerHTML = losses;			
+			document.querySelector('#wins').innerHTML = wins;
+		}
+	</script>
 </body>
-</html>
